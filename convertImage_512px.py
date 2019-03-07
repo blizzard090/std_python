@@ -29,28 +29,30 @@ def makeName(imagePath):
             makeName = name[:i] + "Convert" + ".png"
     return makeName
 
-def convertSizeImage(imagePath, widthConvert = 512):
-    """Đối số là một đường dẫn ảnh. widthConvert = 512px là mặc định.
-    Nếu width > 512px, thu bé width về 512px, trả về 1.
+def convertSizeImage(imagePath, heightConvert = 512):
+    """Đối số là một đường dẫn ảnh. heightConvert = 512px là mặc định.
+    Nếu height > 512px, thu bé height về 512px, trả về 1.
     Nếu ảnh có định dạng khác png, convert ảnh về png.
-    Nếu width ảnh < 512px, trả về 0.
+    Nếu height ảnh < 512px, trả về 0.
     """ 
     image = PilImage.open(imagePath).convert("RGB")
     width, height = image.size
-    if width < widthConvert:
+    if height < heightConvert:
         if ".png" in getNameImage(imagePath):
             print(getNameImage(imagePath) + " SIZE " + str(image.size))
         else:
             image.save(makeName(imagePath))
             print(getNameImage(imagePath) + " SIZE " + str(image.size) + " --> " + makeName(imagePath))
         return 0
-    scale = widthConvert/width
-    newHeight = int(height*scale)
-    newSizeImage = (widthConvert, newHeight)
+    scale = heightConvert/height
+    newWidth = int(width*scale)
+    newSizeImage = (newWidth, heightConvert)
     newImage = image.resize(newSizeImage)
     newImage.save(makeName(imagePath))
     print("CONVERT " + getNameImage(imagePath) + " " + str(image.size) + " --> " + str(newImage.size))
     return 1
+
+
 PATH = "/*.*"
 myList = getListImage(PATH)
 for item in myList:
